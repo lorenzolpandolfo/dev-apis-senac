@@ -1,772 +1,628 @@
 {
-	"info": {
-		"_postman_id": "eaeee410-fef9-4e4b-a8fe-70898da79654",
-		"name": "dev apis v2",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "37212133"
-	},
-	"item": [
-		{
-			"name": "Users",
-			"item": [
-				{
-					"name": "get all users",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/users",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"users"
-							]
-						},
-						"description": "Generated from cURL: curl -X GET http://localhost:3000/api/users\n"
-					},
-					"response": []
-				},
-				{
-					"name": "get user by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/users/873d2349-8c95-437d-9a5e-4292ae8e30a3",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"873d2349-8c95-437d-9a5e-4292ae8e30a3"
-							]
-						},
-						"description": "Generated from cURL: curl -X GET http://localhost:3000/api/users/1\n"
-					},
-					"response": []
-				},
-				{
-					"name": "create user",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllMWRlMmM5LTI5MGQtNGI4OS1hM2QyLTA4NGU3Y2ZhYTZjYiIsImVtYWlsIjoibG9yZW56b0BnbWFpbC5jb20iLCJmdWxsTmFtZSI6IkxvcmVuem8gUGFuZG9sZm8iLCJpYXQiOjE3NjE2MDc0MDgsImV4cCI6MTc2MTY5MzgwOH0.xn71HdbR3YK4524t5k-i9PC2p0SvMI-U8-f5BV7Nxvw",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"Erik\",\n    \"email\": \"erik@email.com\",\n    \"password\": \"senha123\"\n  }",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_url}}/api/users/register",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"register"
-							]
-						},
-						"description": "Generated from cURL: curl -X POST http://localhost:3000/api/users \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"fullName\": \"João da Silva\",\n    \"email\": \"joao.silva@email.com\",\n    \"password\": \"senha123\"\n  }'"
-					},
-					"response": []
-				},
-				{
-					"name": "login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Response status code is 200\", function () {",
-									"    pm.expect(pm.response.code).to.equal(200);",
-									"});",
-									"",
-									"",
-									"pm.test(\"Response has required fields\", function () {",
-									"    const responseData = pm.response.json();",
-									"    ",
-									"    pm.expect(responseData).to.be.an('object');",
-									"    pm.expect(responseData).to.have.all.keys('access_token', 'token_type');",
-									"});",
-									"",
-									"",
-									"pm.test(\"Access token is a non-empty string\", function () {",
-									"    const responseData = pm.response.json();",
-									"    ",
-									"    pm.expect(responseData).to.be.an('object');",
-									"    pm.expect(responseData.access_token).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token should not be empty\");",
-									"});",
-									"",
-									"",
-									"pm.test(\"Token type should be 'Bearer'\", function () {",
-									"    const responseData = pm.response.json();",
-									"    ",
-									"    pm.expect(responseData).to.be.an('object');",
-									"    pm.expect(responseData.token_type).to.exist.and.to.equal(\"bearer\");",
-									"});",
-									"",
-									"let response = pm.response.json()",
-									"pm.collectionVariables.set(\"auth_token\", response.authToken)"
-								],
-								"type": "text/javascript",
-								"packages": {},
-								"requests": {}
-							}
-						},
-						{
-							"listen": "prerequest",
-							"script": {
-								"packages": {},
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"email\": \"lorenzo@gmail.com\",\n    \"password\": \"senha123\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_url}}/api/users/login",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"login"
-							]
-						},
-						"description": "Generated from cURL: curl -X POST http://localhost:3000/api/users/auth \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"email\": \"joao.silva@email.com\",\n    \"password\": \"senha123\"\n  }'"
-					},
-					"response": []
-				},
-				{
-					"name": "update user",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"fullName\": \"João Brasil Santos\",\n    \"email\": \"joao.brasil.santos@email.com\"\n  }",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_url}}/api/users/873d2349-8c95-437d-9a5e-4292ae8e30a3",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"users",
-								"873d2349-8c95-437d-9a5e-4292ae8e30a3"
-							]
-						},
-						"description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"fullName\": \"João Silva Santos\",\n    \"email\": \"joao.silva.santos@email.com\"\n  }'"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Students",
-			"item": [
-				{
-					"name": "get all students",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/students",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"students"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get student by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/students/8164d577-f412-4025-92f6-47bd1f2c26e3",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"students",
-								"8164d577-f412-4025-92f6-47bd1f2c26e3"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get student by registration",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/students/registration/2025001",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"students",
-								"registration",
-								"2025001"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create student",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"registration\": \"2025001\",\n    \"name\": \"Maria Santos\",\n    \"email\": \"maria.santos@email.com\",\n    \"phone\": \"(11) 98765-4321\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_url}}/api/students",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"students"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update student",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Maria Santos Silva\",\n    \"phone\": \"(11) 98765-9876\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_url}}/api/students/cd9dda92-3077-4fe5-a40c-1012d20890b6",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"students",
-								"cd9dda92-3077-4fe5-a40c-1012d20890b6"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete student",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/students/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"students",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Classes",
-			"item": [
-				{
-					"name": "get all classes",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/classes",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"classes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get class by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/classes/ee616d9c-3849-4ca7-ba9a-4cf960e6138b",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"classes",
-								"ee616d9c-3849-4ca7-ba9a-4cf960e6138b"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get class students",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{api_url}}/api/classes/ee616d9c-3849-4ca7-ba9a-4cf960e6138b/students",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"classes",
-								"ee616d9c-3849-4ca7-ba9a-4cf960e6138b",
-								"students"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create class",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"semester\": \"2025/2\",\n    \"courseName\": \"Programação Web\",\n    \"teacherName\": \"Pedro Oliveira\",\n    \"weekDay\": \"Segunda-feira\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_url}}/api/classes",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"classes"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "add student to class",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"studentId\": \"8164d577-f412-4025-92f6-47bd1f2c26e3\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_url}}/api/classes/ee616d9c-3849-4ca7-ba9a-4cf960e6138b/students",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"classes",
-								"ee616d9c-3849-4ca7-ba9a-4cf960e6138b",
-								"students"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "remove student from class",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/classes/1/students/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"classes",
-								"1",
-								"students",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update class",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"teacherName\": \"Carlos Souza\",\n    \"weekDay\": \"Terça-feira\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/classes/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"classes",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete class",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/classes/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"classes",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Lessons",
-			"item": [
-				{
-					"name": "get all lessons",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/lessons",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"lessons"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get lesson by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/lessons/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"lessons",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get class lessons",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/lessons/class/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"lessons",
-								"class",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create lesson",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"classId\": \"b5a039b6-ce91-4806-a402-5b0352299e2f\",\n    \"date\": \"2025-10-27\",\n    \"content\": \"Introdução a APIs REST\",\n    \"attendance\": [\n      {\n        \"studentId\": \"dcc399f0-b8ec-4602-9bec-3663be1f5258\",\n        \"present\": true\n      }\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{api_url}}/api/lessons",
-							"host": [
-								"{{api_url}}"
-							],
-							"path": [
-								"api",
-								"lessons"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update lesson",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"content\": \"Introdução a APIs REST e HTTP\",\n    \"attendance\": [\n      {\"studentId\": 1, \"present\": true},\n      {\"studentId\": 2, \"present\": false},\n      {\"studentId\": 3, \"present\": true}\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/api/lessons/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"lessons",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delete lesson",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/lessons/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"lessons",
-								"1"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"auth": {
-		"type": "bearer",
-		"bearer": [
-			{
-				"key": "token",
-				"value": "{{auth_token}}",
-				"type": "string"
-			}
-		]
-	},
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"packages": {},
-				"requests": {},
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"packages": {},
-				"requests": {},
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "auth_token",
-			"value": ""
-		},
-		{
-			"key": "api_url",
-			"value": ""
-		}
-	]
+  "info": {
+    "_postman_id": "eaeee410-fef9-4e4b-a8fe-70898da79654",
+    "name": "dev apis v3",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37212133"
+  },
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "get all users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/users",
+              "host": ["{{api_url}}"],
+              "path": ["api", "users"]
+            },
+            "description": "Generated from cURL: curl -X GET http://localhost:3000/api/users\n"
+          },
+          "response": []
+        },
+        {
+          "name": "get user by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/users/873d2349-8c95-437d-9a5e-4292ae8e30a3",
+              "host": ["{{api_url}}"],
+              "path": ["api", "users", "873d2349-8c95-437d-9a5e-4292ae8e30a3"]
+            },
+            "description": "Generated from cURL: curl -X GET http://localhost:3000/api/users/1\n"
+          },
+          "response": []
+        },
+        {
+          "name": "create user",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjllMWRlMmM5LTI5MGQtNGI4OS1hM2QyLTA4NGU3Y2ZhYTZjYiIsImVtYWlsIjoibG9yZW56b0BnbWFpbC5jb20iLCJmdWxsTmFtZSI6IkxvcmVuem8gUGFuZG9sZm8iLCJpYXQiOjE3NjE2MDc0MDgsImV4cCI6MTc2MTY5MzgwOH0.xn71HdbR3YK4524t5k-i9PC2p0SvMI-U8-f5BV7Nxvw",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullName\": \"Lorenzo Pandolfo\",\n    \"email\": \"lorenzo@gmail.com\",\n    \"password\": \"senha123\"\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/users/register",
+              "host": ["{{api_url}}"],
+              "path": ["api", "users", "register"]
+            },
+            "description": "Generated from cURL: curl -X POST http://localhost:3000/api/users \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"fullName\": \"João da Silva\",\n    \"email\": \"joao.silva@email.com\",\n    \"password\": \"senha123\"\n  }'"
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Response status code is 200\", function () {",
+                  "    pm.expect(pm.response.code).to.equal(200);",
+                  "});",
+                  "",
+                  "",
+                  "pm.test(\"Response has required fields\", function () {",
+                  "    const responseData = pm.response.json();",
+                  "    ",
+                  "    pm.expect(responseData).to.be.an('object');",
+                  "    pm.expect(responseData).to.have.all.keys('access_token', 'token_type');",
+                  "});",
+                  "",
+                  "",
+                  "pm.test(\"Access token is a non-empty string\", function () {",
+                  "    const responseData = pm.response.json();",
+                  "    ",
+                  "    pm.expect(responseData).to.be.an('object');",
+                  "    pm.expect(responseData.access_token).to.exist.and.to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token should not be empty\");",
+                  "});",
+                  "",
+                  "",
+                  "pm.test(\"Token type should be 'Bearer'\", function () {",
+                  "    const responseData = pm.response.json();",
+                  "    ",
+                  "    pm.expect(responseData).to.be.an('object');",
+                  "    pm.expect(responseData.token_type).to.exist.and.to.equal(\"bearer\");",
+                  "});",
+                  "",
+                  "let response = pm.response.json()",
+                  "pm.collectionVariables.set(\"auth_token\", response.authToken)"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "packages": {},
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"lorenzo@gmail.com\",\n    \"password\": \"senha123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/users/login",
+              "host": ["{{api_url}}"],
+              "path": ["api", "users", "login"]
+            },
+            "description": "Generated from cURL: curl -X POST http://localhost:3000/api/users/auth \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"email\": \"joao.silva@email.com\",\n    \"password\": \"senha123\"\n  }'"
+          },
+          "response": []
+        },
+        {
+          "name": "update user",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"fullName\": \"João Brasil Santos\",\n    \"email\": \"joao.brasil.santos@email.com\"\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/users/873d2349-8c95-437d-9a5e-4292ae8e30a3",
+              "host": ["{{api_url}}"],
+              "path": ["api", "users", "873d2349-8c95-437d-9a5e-4292ae8e30a3"]
+            },
+            "description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"fullName\": \"João Silva Santos\",\n    \"email\": \"joao.silva.santos@email.com\"\n  }'"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Students",
+      "item": [
+        {
+          "name": "get all students",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/students",
+              "host": ["{{api_url}}"],
+              "path": ["api", "students"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get student by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/students/8164d577-f412-4025-92f6-47bd1f2c26e3",
+              "host": ["{{api_url}}"],
+              "path": [
+                "api",
+                "students",
+                "8164d577-f412-4025-92f6-47bd1f2c26e3"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get student by registration",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/students/registration/2025001",
+              "host": ["{{api_url}}"],
+              "path": ["api", "students", "registration", "2025001"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"registration\": \"2025001\",\n    \"name\": \"Maria Santos\",\n    \"email\": \"maria.santos@email.com\",\n    \"phone\": \"(11) 98765-4321\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/students",
+              "host": ["{{api_url}}"],
+              "path": ["api", "students"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update student",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Maria Santos Silva\",\n    \"phone\": \"(11) 98765-9876\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/students/cd9dda92-3077-4fe5-a40c-1012d20890b6",
+              "host": ["{{api_url}}"],
+              "path": [
+                "api",
+                "students",
+                "cd9dda92-3077-4fe5-a40c-1012d20890b6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete student",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/students/1f74bfaa-ca07-4461-96dc-ed3eec4974e8",
+              "host": ["{{api_url}}"],
+              "path": [
+                "api",
+                "students",
+                "1f74bfaa-ca07-4461-96dc-ed3eec4974e8"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Classes",
+      "item": [
+        {
+          "name": "get all classes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/classes",
+              "host": ["{{api_url}}"],
+              "path": ["api", "classes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get class by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/classes/ee616d9c-3849-4ca7-ba9a-4cf960e6138b",
+              "host": ["{{api_url}}"],
+              "path": ["api", "classes", "ee616d9c-3849-4ca7-ba9a-4cf960e6138b"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get class students",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/classes/ee616d9c-3849-4ca7-ba9a-4cf960e6138b/students",
+              "host": ["{{api_url}}"],
+              "path": [
+                "api",
+                "classes",
+                "ee616d9c-3849-4ca7-ba9a-4cf960e6138b",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create class",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"semester\": \"2025/2\",\n    \"courseName\": \"Programação Web\",\n    \"teacherName\": \"Pedro Oliveira\",\n    \"weekDay\": \"Segunda-feira\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/classes",
+              "host": ["{{api_url}}"],
+              "path": ["api", "classes"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add student to class",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"studentId\": \"8164d577-f412-4025-92f6-47bd1f2c26e3\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/classes/ee616d9c-3849-4ca7-ba9a-4cf960e6138b/students",
+              "host": ["{{api_url}}"],
+              "path": [
+                "api",
+                "classes",
+                "ee616d9c-3849-4ca7-ba9a-4cf960e6138b",
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "remove student from class",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/classes/1/students/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "classes", "1", "students", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update class",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"teacherName\": \"Carlos Souza\",\n    \"weekDay\": \"Terça-feira\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/classes/c905f712-77e9-43cb-9825-632bdee36de2",
+              "host": ["{{api_url}}"],
+              "path": ["api", "classes", "c905f712-77e9-43cb-9825-632bdee36de2"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete class",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/classes/af81de55-4fe9-47c5-b760-feba6c12d36e",
+              "host": ["{{api_url}}"],
+              "path": ["api", "classes", "af81de55-4fe9-47c5-b760-feba6c12d36e"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Lessons",
+      "item": [
+        {
+          "name": "get all lessons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/lessons",
+              "host": ["{{api_url}}"],
+              "path": ["api", "lessons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get lesson by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/lessons/ec2b0551-65b3-46fb-8e10-743c47605ac0",
+              "host": ["{{api_url}}"],
+              "path": ["api", "lessons", "ec2b0551-65b3-46fb-8e10-743c47605ac0"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get class lessons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/lessons/class/c905f712-77e9-43cb-9825-632bdee36de2",
+              "host": ["{{api_url}}"],
+              "path": [
+                "api",
+                "lessons",
+                "class",
+                "c905f712-77e9-43cb-9825-632bdee36de2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "create lesson",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"classId\": \"c905f712-77e9-43cb-9825-632bdee36de2\",\n    \"date\": \"2025-10-27\",\n    \"content\": \"Introdução a APIs REST\",\n    \"attendance\": [\n      {\n        \"studentId\": \"dcc399f0-b8ec-4602-9bec-3663be1f5258\",\n        \"present\": true\n      }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/lessons",
+              "host": ["{{api_url}}"],
+              "path": ["api", "lessons"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update lesson",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"content\": \"Introdução a Python\",\n    \"attendance\": [\n      {\"studentId\": \"e46399c8-236a-4368-836b-13fda5077a10\", \"present\": true}\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{api_url}}/api/lessons/ec2b0551-65b3-46fb-8e10-743c47605ac0",
+              "host": ["{{api_url}}"],
+              "path": ["api", "lessons", "ec2b0551-65b3-46fb-8e10-743c47605ac0"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "delete lesson",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{api_url}}/api/lessons/ec2b0551-65b3-46fb-8e10-743c47605ac0",
+              "host": ["{{api_url}}"],
+              "path": ["api", "lessons", "ec2b0551-65b3-46fb-8e10-743c47605ac0"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{auth_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "auth_token",
+      "value": ""
+    },
+    {
+      "key": "api_url",
+      "value": ""
+    }
+  ]
 }

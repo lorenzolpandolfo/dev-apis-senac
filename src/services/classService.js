@@ -63,10 +63,7 @@ class ClassService {
       throw new Error("Student not found");
     }
 
-    const updatedClass = classRepository.addStudent(
-      classId,
-      studentId
-    );
+    const updatedClass = classRepository.addStudent(classId, studentId);
     if (!updatedClass) {
       throw new Error("Class not found");
     }
@@ -74,10 +71,7 @@ class ClassService {
   }
 
   removeStudentFromClass(classId, studentId) {
-    const updatedClass = classRepository.removeStudent(
-      classId,
-      studentId
-    );
+    const updatedClass = classRepository.removeStudent(classId, studentId);
     if (!updatedClass) {
       throw new Error("Class not found");
     }
