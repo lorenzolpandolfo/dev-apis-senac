@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 class UserRepository {
   constructor() {
     this.users = [];
-    this.createDefaultUser();
   }
 
   async createDefaultUser() {
