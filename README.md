@@ -102,53 +102,10 @@ node src/app.js
 
 O servidor será iniciado na porta 3000.
 
-## Exemplos de Requisições
+# Testando a API
 
-### Cadastrar um Aluno
-
-```json
-POST /api/students
-{
-    "registration": "2025001",
-    "name": "João Silva",
-    "email": "joao@email.com",
-    "phone": "(11) 98765-4321"
-}
+importe o arquivo de collection do Postman, presente no projeto, para testar a API. Caso prefira, defina a variável da collection **api_url** para o serviço hospeadado no **Render**:
+```
+https://dev-apis-senac.onrender.com
 ```
 
-### Criar uma Turma
-
-```json
-POST /api/classes
-{
-    "semester": "2025/2",
-    "courseName": "Programação Web",
-    "teacherName": "Maria Santos",
-    "weekDay": "Segunda-feira"
-}
-```
-
-### Registrar uma Aula
-
-```json
-POST /api/lessons
-{
-    "classId": 1,
-    "date": "2025-10-27",
-    "content": "Introdução a APIs REST",
-    "attendance": [
-        {"studentId": 1, "present": true},
-        {"studentId": 2, "present": false}
-    ]
-}
-```
-
-### Autenticar Usuário
-
-```json
-POST /api/users/auth
-{
-    "email": "usuario@email.com",
-    "password": "senha123"
-}
-```
