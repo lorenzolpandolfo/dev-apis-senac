@@ -26,7 +26,6 @@ class ClassService {
       );
     }
 
-    // Validate semester format (YYYY/S)
     if (!/^\d{4}\/[1-2]$/.test(classData.semester)) {
       throw new Error(
         "Invalid semester format. Use YYYY/S format (e.g., 2025/2)"

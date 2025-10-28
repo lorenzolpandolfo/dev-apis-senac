@@ -6,19 +6,6 @@ class UserRepository {
     this.users = [];
   }
 
-  async createDefaultUser() {
-    const hashedPassword = await bcrypt.hash("senha123", 10);
-
-    const defaultUser = {
-      id: uuid.v4(),
-      fullName: "Lorenzo Pandolfo",
-      email: "lorenzo@gmail.com",
-      password: hashedPassword,
-    };
-
-    this.users.push(defaultUser);
-  }
-
   findAll() {
     return this.users;
   }
@@ -37,7 +24,7 @@ class UserRepository {
       ...userData,
     };
     this.users.push(user);
-    return user;
+    return { ...user, password: undefined };
   }
 
   update(id, userData) {
@@ -70,14 +57,5 @@ class UserRepository {
 }
 
 const repository = new UserRepository();
-
-repository
-  .createDefaultUser()
-  .then(() => {
-    console.log("Default user created successfully");
-  })
-  .catch((err) => {
-    console.error("Error creating default user:", err);
-  });
 
 module.exports = repository;

@@ -21,7 +21,7 @@ router.get("/:id", authenticateToken, (req, res) => {
   }
 });
 
-router.post("/register", authenticateToken, async (req, res) => {
+router.post("/register", async (req, res) => {
   try {
     const newUser = await userService.createUser(req.body);
     res.status(201).json(newUser);

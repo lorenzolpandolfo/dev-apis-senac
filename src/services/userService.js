@@ -16,7 +16,7 @@ class UserService {
     return user;
   }
 
-  createUser(userData) {
+  async createUser(userData) {
     if (!userData.fullName || !userData.email || !userData.password) {
       throw new Error("Full name, email and password are required");
     }
@@ -26,7 +26,14 @@ class UserService {
       throw new Error("Email already registered");
     }
 
-    return userRepository.create(userData);
+    const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+    const userToCreate = {
+      ...userData,
+      password: hashedPassword,
+    };
+
+    return userRepository.create(userToCreate);
   }
 
   async authenticate(email, password) {
@@ -44,7 +51,6 @@ class UserService {
       throw new Error("Invalid email or password");
     }
 
-    // Generate JWT token and return only the token
     const token = jwt.sign(
       {
         id: user.id,
